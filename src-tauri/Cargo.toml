@@ -1,6 +1,6 @@
 [package]
 name = "abap-notebook"
-version = "0.1.1"
+version = "0.1.2"
 description = "ABAP Developer Notebook"
 authors = ["Rıza Çelik"]
 edition = "2021"

@@ -30,6 +30,7 @@ export function EntryDetailPage() {
   const { removeEntry, lang } = useAppStore();
   const [entry, setEntry] = useState<Entry | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const t = useT();
 
   useEffect(() => {
@@ -45,7 +46,6 @@ export function EntryDetailPage() {
 
   const handleDelete = async () => {
     if (!entry) return;
-    if (!confirm(t("deleteConfirm"))) return;
     await api.deleteEntry(entry.id);
     removeEntry(entry.id);
     navigate("/");
@@ -94,20 +94,40 @@ export function EntryDetailPage() {
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            onClick={() => navigate(`/entry/${entry.id}/edit`)}
-            className="flex items-center gap-1.5 text-sm px-2.5 py-1.5 rounded-md border border-border hover:bg-accent transition-colors"
-          >
-            <Edit className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("edit")}</span>
-          </button>
-          <button
-            onClick={handleDelete}
-            className="flex items-center gap-1.5 text-sm px-2.5 py-1.5 rounded-md border border-destructive/30 text-destructive hover:bg-destructive/10 transition-colors"
-          >
-            <Trash2 className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("delete")}</span>
-          </button>
+          {!confirmDelete ? (
+            <>
+              <button
+                onClick={() => navigate(`/entry/${entry.id}/edit`)}
+                className="flex items-center gap-1.5 text-sm px-2.5 py-1.5 rounded-md border border-border hover:bg-accent transition-colors"
+              >
+                <Edit className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("edit")}</span>
+              </button>
+              <button
+                onClick={() => setConfirmDelete(true)}
+                className="flex items-center gap-1.5 text-sm px-2.5 py-1.5 rounded-md border border-destructive/30 text-destructive hover:bg-destructive/10 transition-colors"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("delete")}</span>
+              </button>
+            </>
+          ) : (
+            <div className="flex items-center gap-1.5 rounded-md border border-destructive/40 px-2 py-1 bg-destructive/5">
+              <span className="text-xs text-destructive font-medium">{t("deleteConfirm")}</span>
+              <button
+                onClick={handleDelete}
+                className="text-xs px-2 py-0.5 rounded bg-destructive text-destructive-foreground hover:opacity-90 transition-opacity"
+              >
+                {t("delete")}
+              </button>
+              <button
+                onClick={() => setConfirmDelete(false)}
+                className="text-xs px-2 py-0.5 rounded border border-border hover:bg-accent transition-colors"
+              >
+                {t("cancel")}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

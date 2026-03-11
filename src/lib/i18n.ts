@@ -127,7 +127,7 @@ const tr = {
   detailParamType: "Tür",
   detailParamOptional: "Opsiyonel",
   detailRelatedTcodes: "İlgili TCode'lar",
-  deleteConfirm: "Bu kaydı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+  deleteConfirm: "Emin misiniz?",
 
   // Pages
   newEntryTitle: "Yeni Kayıt",
@@ -270,7 +270,7 @@ const en: typeof tr = {
   detailParamType: "Type",
   detailParamOptional: "Optional",
   detailRelatedTcodes: "Related TCodes",
-  deleteConfirm: "Delete this entry? This cannot be undone.",
+  deleteConfirm: "Are you sure?",
 
   newEntryTitle: "New Entry",
   editEntryTitle: "Edit Entry",

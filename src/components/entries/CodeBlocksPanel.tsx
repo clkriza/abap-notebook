@@ -40,6 +40,7 @@ export function CodeBlocksPanel({ entryId, initialBlocks }: Props) {
   const [saving, setSaving] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const t = useT();
 
   const startAdd = () => setEditing({ label: "", language: "abap", code: "", description: "" });
@@ -74,13 +75,13 @@ export function CodeBlocksPanel({ entryId, initialBlocks }: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t("codeBlockDeleteConfirm"))) return;
     setDeletingId(id);
     try {
       await api.deleteCodeBlock(id);
       setBlocks((prev) => prev.filter((b) => b.id !== id));
     } finally {
       setDeletingId(null);
+      setConfirmDeleteId(null);
     }
   };
 
@@ -137,13 +138,30 @@ export function CodeBlocksPanel({ entryId, initialBlocks }: Props) {
                   >
                     <Pencil className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t("edit")}</span>
                   </button>
-                  <button
-                    onClick={() => handleDelete(block.id)}
-                    disabled={deletingId === block.id}
-                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive transition-colors px-2 py-1 rounded hover:bg-destructive/10 disabled:opacity-50"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t("delete")}</span>
-                  </button>
+                  {confirmDeleteId === block.id ? (
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleDelete(block.id)}
+                        disabled={deletingId === block.id}
+                        className="text-xs px-2 py-0.5 rounded bg-destructive text-destructive-foreground hover:opacity-90 disabled:opacity-50 transition-opacity"
+                      >
+                        {deletingId === block.id ? "…" : t("delete")}
+                      </button>
+                      <button
+                        onClick={() => setConfirmDeleteId(null)}
+                        className="text-xs px-2 py-0.5 rounded border border-border hover:bg-accent transition-colors"
+                      >
+                        {t("cancel")}
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmDeleteId(block.id)}
+                      className="flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive transition-colors px-2 py-1 rounded hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /><span className="hidden sm:inline">{t("delete")}</span>
+                    </button>
+                  )}
                 </div>
               </div>
               {block.description && (
