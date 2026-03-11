@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.tauri/
+src-tauri/target/
+src-tauri/gen/
+
+# Local video project — kept only on local machine
+video/
+
+*.db
+*.db-wal
+*.db-shm
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+*.log
+npm-debug.log*
+
+.env
+.env.local
+
+src-tauri/WixTools/
