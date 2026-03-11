@@ -13,6 +13,10 @@ A free, open-source desktop app for SAP/ABAP developers to document, organize an
 ![Release](https://img.shields.io/github/v/release/clkriza/abap-notebook)
 ![Tauri](https://img.shields.io/badge/Tauri-v2-orange)
 
+<br/>
+
+<img src="assets/demo.gif" alt="ABAP Notebook Demo" width="800" />
+
 </div>
 
 ---
