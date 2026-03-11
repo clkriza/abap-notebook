@@ -9,8 +9,8 @@
 A free, open-source desktop app for SAP/ABAP developers to document, organize and search their ABAP objects.
 
 ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows-blue)
-![License](https://img.shields.io/github/license/rizacelik/abap-notebook)
-![Release](https://img.shields.io/github/v/release/rizacelik/abap-notebook)
+![License](https://img.shields.io/github/license/clkriza/abap-notebook)
+![Release](https://img.shields.io/github/v/release/clkriza/abap-notebook)
 ![Tauri](https://img.shields.io/badge/Tauri-v2-orange)
 
 </div>
@@ -50,7 +50,7 @@ Yazdığınız kodları, nesneleri ve notları organize edin — tüm veriler **
 
 ```bash
 # Gereksinimler: Node.js 18+, Rust stable
-git clone https://github.com/rizacelik/abap-notebook.git
+git clone https://github.com/clkriza/abap-notebook.git
 cd abap-notebook
 npm install
 npm run tauri dev      # Geliştirme modu
@@ -92,7 +92,7 @@ Download from the [**Releases**](../../releases/latest) page:
 
 ```bash
 # Requirements: Node.js 18+, Rust stable
-git clone https://github.com/rizacelik/abap-notebook.git
+git clone https://github.com/clkriza/abap-notebook.git
 cd abap-notebook
 npm install
 npm run tauri dev      # Development mode
