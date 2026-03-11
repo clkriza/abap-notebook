@@ -3,7 +3,7 @@ use uuid::Uuid;
 use chrono::Utc;
 use slug::slugify;
 
-use crate::db::{open_connection, upsert_fts};
+use crate::db::open_connection;
 use crate::models::*;
 
 fn json_vec<T: serde::Serialize>(v: &[T]) -> String {
@@ -342,7 +342,6 @@ pub fn create_entry(input: CreateEntryInput) -> Result<Entry, String> {
     .map_err(|e| e.to_string())?;
 
     sync_tags(&conn, &id, &input.tag_names);
-    upsert_fts(&conn, &id).map_err(|e| e.to_string())?;
 
     get_entry(id)?.ok_or_else(|| "Entry not found after insert".to_string())
 }
@@ -375,7 +374,6 @@ pub fn update_entry(input: UpdateEntryInput) -> Result<Entry, String> {
     }
 
     sync_tags(&conn, &input.id, &input.tag_names);
-    upsert_fts(&conn, &input.id).map_err(|e| e.to_string())?;
 
     get_entry(input.id)?.ok_or_else(|| "Entry not found after update".to_string())
 }
@@ -383,8 +381,8 @@ pub fn update_entry(input: UpdateEntryInput) -> Result<Entry, String> {
 #[tauri::command]
 pub fn delete_entry(id: String) -> Result<(), String> {
     let conn = open_connection().map_err(|e| e.to_string())?;
-    conn.execute("DELETE FROM entries_fts WHERE entry_id = ?1", params![id])
-        .map_err(|e| e.to_string())?;
+    // Ignore FTS cleanup errors — search uses LIKE, not FTS5
+    conn.execute("DELETE FROM entries_fts WHERE entry_id = ?1", params![id]).ok();
     conn.execute("DELETE FROM entries WHERE id = ?1", params![id])
         .map_err(|e| e.to_string())?;
     Ok(())
